@@ -73,7 +73,7 @@
 
 - (void)mapView:(MAMapView *)mapView didFailToLocateUserWithError:(NSError *)error
 {
-    NSLog(@"errInfo= %@", error);
+    NSLog(@"%s: ,errInfo= %@", __func__, error);
 }
 
 #pragma mark - Initialization

@@ -14,6 +14,8 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIImageView *centerPointImgView;
 @property (nonatomic, assign) CLLocationCoordinate2D location;
+@property (nonatomic, strong) AMapReGeocode *regeocode; //!< 逆地理编码结果   用strong还是weak
+
 @end
 
 @implementation MyWeChatViewController
@@ -50,21 +52,49 @@
     //构造AMapReGeocodeSearchRequest对象
     AMapReGeocodeSearchRequest *regeo = [[AMapReGeocodeSearchRequest alloc] init];
     regeo.location = [AMapGeoPoint locationWithLatitude:self.location.latitude longitude:self.location.longitude];
-    regeo.radius = 10000;
+    regeo.radius = 3000;
     regeo.requireExtension = YES;
     
     //发起逆地理编码
     [self.search AMapReGoecodeSearch: regeo];
 }
 
+- (void)initObservers
+{
+    /* Add observer for location. */
+    [self addObserver:self forKeyPath:@"location" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+#pragma mark - NSKeyValueObservering
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"location"])
+    {
+        [self createReGeoCodeSearch];
+    }
+}
+
+
+#pragma mark - 重写方法
+#pragma mark - 不用了，要清除。在这里，任何添加在mapView上的对象都要清除
 /**
  *  不用了 要清除
  */
 -(void)returnAction {
     [super returnAction];
+    
     self.mapView.userTrackingMode  = MAUserTrackingModeNone;
+    
     [self.centerPointImgView removeFromSuperview];
+    
+    [self removeObserver:self forKeyPath:@"location"];
+    
 }
+
+//- (void)hookAction {
+//    [self createReGeoCodeSearch];
+//}
 
 #pragma mark - MAMapViewDelegate
 -(void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation
@@ -75,6 +105,7 @@ updatingLocation:(BOOL)updatingLocation
         //取出当前位置的坐标
         //NSLog(@"latitude : %f,longitude : %f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
         //latitude : 31.183884,longitude : 121.585403
+        //self.location = userLocation.coordinate;
     }
 }
 //地图移动结束后调用此接口
@@ -107,13 +138,34 @@ updatingLocation:(BOOL)updatingLocation
 #pragma mark - AMapSearchDelegate
 - (void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response {
     
-    
+    if(response.regeocode != nil)
+    {
+        //通过AMapReGeocodeSearchResponse对象处理搜索结果
+        NSString *result = [NSString stringWithFormat:@"ReGeocode: %@", response.regeocode];
+//        NSLog(@"ReGeo: %@", result);
+        
+        AMapReGeocode *reGeocode = response.regeocode;
+//        NSLog(@"reGeocode: %@", reGeocode);
+        self.regeocode = reGeocode;
+        
+        NSString *formattedAddress = reGeocode.formattedAddress;
+        NSLog(@"formattedAddress: %@", formattedAddress);
+        
+        NSArray *pois = reGeocode.pois;
+        NSArray *aois = reGeocode.aois;
+//        NSLog(@"pois:%@",pois);
+//        NSLog(@"aois:%@",aois);
+        
+        
+        
+        [self.tableView reloadData];
+    }
     
 }
 
 #pragma mark - tableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.regeocode.pois.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -122,8 +174,9 @@ updatingLocation:(BOOL)updatingLocation
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
-    cell.textLabel.text = @"";
-    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    AMapPOI *POI = self.regeocode.pois[indexPath.row];
+    cell.textLabel.text = POI.name;
+//    cell.accessoryType = UITableViewCellAccessoryCheckmark;
     
     return cell;
 }
@@ -141,12 +194,14 @@ updatingLocation:(BOOL)updatingLocation
     [self addUserLocation:self.mapView];
     
     [self createMapViewCenterPoint];
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    
+    [self initObservers];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -161,6 +216,9 @@ updatingLocation:(BOOL)updatingLocation
     CLLocationCoordinate2D location = [self.mapView convertPoint:self.centerPointImgView.center toCoordinateFromView:self.mapView];
     NSLog(@"center_latitude : %f,center_longitude : %f",location.latitude,location.longitude);
     //40.100516,longitude:116.405272
+    self.location = location;
+    
+//    [self hookAction];
 }
 
 - (void)didReceiveMemoryWarning {
