@@ -7,7 +7,7 @@
 //
 
 #import "MyWeChatViewController.h"
-
+#import "GeocodeAnnotation.h"
 
 @interface MyWeChatViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, assign) CGFloat mapView_height;
@@ -15,6 +15,10 @@
 @property (nonatomic, strong) UIImageView *centerPointImgView;
 @property (nonatomic, assign) CLLocationCoordinate2D location;
 @property (nonatomic, strong) AMapReGeocode *regeocode; //!< 逆地理编码结果   用strong还是weak
+@property (nonatomic, copy) NSString *address;
+@property (nonatomic, strong)UITableViewCell *frontClickCell;//前面点击的cell
+@property (nonatomic, copy)   NSString     *uid;
+
 
 @end
 
@@ -48,7 +52,7 @@
     
 }
 
-- (void)createReGeoCodeSearch {
+- (void)createReGeocodeSearch {
     //构造AMapReGeocodeSearchRequest对象
     AMapReGeocodeSearchRequest *regeo = [[AMapReGeocodeSearchRequest alloc] init];
     regeo.location = [AMapGeoPoint locationWithLatitude:self.location.latitude longitude:self.location.longitude];
@@ -57,6 +61,15 @@
     
     //发起逆地理编码
     [self.search AMapReGoecodeSearch: regeo];
+}
+
+- (void)createGeocodeSearch {
+    //构造AMapGeocodeSearchRequest对象，address为必选项，city为可选项
+    AMapGeocodeSearchRequest *geo = [[AMapGeocodeSearchRequest alloc] init];
+    geo.address = self.address;
+    
+    //发起正向地理编码
+    [self.search AMapGeocodeSearch: geo];
 }
 
 - (void)initObservers
@@ -71,7 +84,7 @@
 {
     if ([keyPath isEqualToString:@"location"])
     {
-        [self createReGeoCodeSearch];
+        [self createReGeocodeSearch];
     }
 }
 
@@ -136,6 +149,8 @@ updatingLocation:(BOOL)updatingLocation
 
 
 #pragma mark - AMapSearchDelegate
+
+//实现逆地理编码的回调函数
 - (void)onReGeocodeSearchDone:(AMapReGeocodeSearchRequest *)request response:(AMapReGeocodeSearchResponse *)response {
     
     if(response.regeocode != nil)
@@ -163,6 +178,40 @@ updatingLocation:(BOOL)updatingLocation
     
 }
 
+//实现正向地理编码的回调函数
+- (void)onGeocodeSearchDone:(AMapGeocodeSearchRequest *)request response:(AMapGeocodeSearchResponse *)response
+{
+    if(response.geocodes.count == 0)
+    {
+        return;
+    }
+    
+//    NSLog(@"%lu",(unsigned long)response.geocodes.count);
+    
+    if (response.geocodes.count == 1) {
+        AMapGeocode *geocode = [response.geocodes firstObject];
+        NSLog(@"%f,%f",geocode.location.latitude,geocode.location.longitude);
+        GeocodeAnnotation *geocodeAnnotation = [[GeocodeAnnotation alloc] initWithGeocode:geocode];
+        NSLog(@"%f,%f",geocodeAnnotation.coordinate.latitude,geocodeAnnotation.coordinate.longitude);
+        [self.mapView setCenterCoordinate:geocodeAnnotation.coordinate animated:YES];
+        
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"response.geocodes.count ！= 1" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [alert show];
+    }
+    
+    //通过AMapGeocodeSearchResponse对象处理搜索结果
+//    NSString *strCount = [NSString stringWithFormat:@"count: %ld", (long)response.count];
+//    
+//    NSString *strGeocodes = @"";
+//    for (AMapTip *p in response.geocodes) {
+//        strGeocodes = [NSString stringWithFormat:@"%@\ngeocode: %@", strGeocodes, p.description];
+//    }
+//    NSString *result = [NSString stringWithFormat:@"%@ \n %@", strCount, strGeocodes];
+//    NSLog(@"Geocode: %@", result);
+}
+
+
 #pragma mark - tableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.regeocode.pois.count;
@@ -176,13 +225,41 @@ updatingLocation:(BOOL)updatingLocation
     }
     AMapPOI *POI = self.regeocode.pois[indexPath.row];
     cell.textLabel.text = POI.name;
-//    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    
+    /**
+     *  解决cell复用 用POI.address == self.address判断时不准确，address可能出现一样的情况
+     */
+    if (self.frontClickCell && self.address && self.uid) {
+//        NSLog(@"\nself.uid:%@\nPOI.uid:%@",self.uid,POI.uid);
+        if (cell == self.frontClickCell && POI.uid == self.uid) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (self.frontClickCell) {
+        self.frontClickCell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    AMapPOI *POI = self.regeocode.pois[indexPath.row];
+    self.address = POI.address;
+    self.uid = POI.uid;
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    self.frontClickCell = cell;
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    
+    [self createGeocodeSearch];
+    NSLog(@"geocode:%f,%f",POI.location.latitude,POI.location.longitude);
 }
 
 - (void)viewDidLoad {

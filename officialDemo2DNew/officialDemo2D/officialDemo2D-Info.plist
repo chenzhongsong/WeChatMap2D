@@ -58,7 +58,9 @@
 		<true/>
 	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string></string>
+	<string>Always</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>WhenInUse</string>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>
 	<key>UIRequiredDeviceCapabilities</key>
