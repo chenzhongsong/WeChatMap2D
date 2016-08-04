@@ -116,8 +116,9 @@ updatingLocation:(BOOL)updatingLocation
     if(updatingLocation)
     {
         //取出当前位置的坐标
-        //NSLog(@"latitude : %f,longitude : %f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
-        //latitude : 31.183884,longitude : 121.585403
+        NSLog(@"latitude : %f,longitude : %f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
+        //latitude : 31.183884,longitude : 121.585403//公司
+        //latitude : 31.051420,longitude : 121.759865//家
         //self.location = userLocation.coordinate;
     }
 }
@@ -165,7 +166,7 @@ updatingLocation:(BOOL)updatingLocation
         
         NSString *formattedAddress = reGeocode.formattedAddress;
         NSLog(@"formattedAddress: %@", formattedAddress);
-        
+        NSLog(@"district:%@,township:%@,neighborhood:%@,building:%@,citycode:%@,adcode:%@",reGeocode.addressComponent.district,reGeocode.addressComponent.township,reGeocode.addressComponent.neighborhood,reGeocode.addressComponent.building,reGeocode.addressComponent.citycode,reGeocode.addressComponent.adcode);
         NSArray *pois = reGeocode.pois;
         NSArray *aois = reGeocode.aois;
 //        NSLog(@"pois:%@",pois);
@@ -214,7 +215,7 @@ updatingLocation:(BOOL)updatingLocation
 
 #pragma mark - tableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.regeocode.pois.count;
+    return self.regeocode.pois.count+1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -223,22 +224,27 @@ updatingLocation:(BOOL)updatingLocation
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
-    AMapPOI *POI = self.regeocode.pois[indexPath.row];
-    cell.textLabel.text = POI.name;
+    if (indexPath.row == 0) {
+        cell.textLabel.text = self.regeocode.formattedAddress;
+    } else {
+        AMapPOI *POI = self.regeocode.pois[indexPath.row];
+        cell.textLabel.text = POI.name;
+    }
+    
     
     /**
      *  解决cell复用 用POI.address == self.address判断时不准确，address可能出现一样的情况
      */
-    if (self.frontClickCell && self.address && self.uid) {
-//        NSLog(@"\nself.uid:%@\nPOI.uid:%@",self.uid,POI.uid);
-        if (cell == self.frontClickCell && POI.uid == self.uid) {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        } else {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        }
-    } else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
+//    if (self.frontClickCell && self.address && self.uid) {
+////        NSLog(@"\nself.uid:%@\nPOI.uid:%@",self.uid,POI.uid);
+//        if (cell == self.frontClickCell && POI.uid == self.uid) {
+//            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+//        } else {
+//            cell.accessoryType = UITableViewCellAccessoryNone;
+//        }
+//    } else {
+//        cell.accessoryType = UITableViewCellAccessoryNone;
+//    }
     
     
     return cell;

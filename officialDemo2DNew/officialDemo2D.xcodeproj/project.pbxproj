@@ -150,6 +150,9 @@
 		81EA67E81BABEE9A007F0A99 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 81EA67E71BABEE9A007F0A99 /* libstdc++.6.0.9.tbd */; };
 		81F8C1301B39667D00972B1A /* heatMapData.json in Resources */ = {isa = PBXBuildFile; fileRef = 81F8C12F1B39667D00972B1A /* heatMapData.json */; };
 		81FD277E17E06D79003AFCDD /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81FD277D17E06D79003AFCDD /* Security.framework */; };
+		9A3D53971D539ED800855695 /* MyAddressInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D53951D539ED800855695 /* MyAddressInfoCell.m */; };
+		9A3D53981D539ED800855695 /* MyAddressInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A3D53961D539ED800855695 /* MyAddressInfoCell.xib */; };
+		9A3D539B1D539F0500855695 /* MyAddressInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3D539A1D539F0500855695 /* MyAddressInfoModel.m */; };
 		9C07F67C18225B49003B19BB /* LineDashPolyline.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C07F67B18225B49003B19BB /* LineDashPolyline.m */; };
 		C89F43141C2A807200954508 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C89F43131C2A807200954508 /* libc++.tbd */; };
 		C89F43161C2A843B00954508 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C89F43151C2A843B00954508 /* AMap.bundle */; };
@@ -395,6 +398,11 @@
 		81EA67E71BABEE9A007F0A99 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		81F8C12F1B39667D00972B1A /* heatMapData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = heatMapData.json; sourceTree = "<group>"; };
 		81FD277D17E06D79003AFCDD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		9A3D53941D539ED800855695 /* MyAddressInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAddressInfoCell.h; sourceTree = "<group>"; };
+		9A3D53951D539ED800855695 /* MyAddressInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAddressInfoCell.m; sourceTree = "<group>"; };
+		9A3D53961D539ED800855695 /* MyAddressInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyAddressInfoCell.xib; sourceTree = "<group>"; };
+		9A3D53991D539F0500855695 /* MyAddressInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAddressInfoModel.h; sourceTree = "<group>"; };
+		9A3D539A1D539F0500855695 /* MyAddressInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAddressInfoModel.m; sourceTree = "<group>"; };
 		9C07F67A18225B49003B19BB /* LineDashPolyline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineDashPolyline.h; sourceTree = "<group>"; };
 		9C07F67B18225B49003B19BB /* LineDashPolyline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineDashPolyline.m; sourceTree = "<group>"; };
 		C89F43131C2A807200954508 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -483,6 +491,8 @@
 				3A05D44617D97856002CF304 /* MAAppDelegate.h */,
 				3A05D44717D97856002CF304 /* MAAppDelegate.m */,
 				3A05D48417D97A31002CF304 /* Controllers */,
+				9A3D53921D539E7F00855695 /* MyModel */,
+				9A3D53931D539E7F00855695 /* MyView */,
 				3A05D4F617D97A46002CF304 /* Models */,
 				743C522C1B8D60280086A2AB /* Views */,
 				3A05D4F417D97A46002CF304 /* Configuration */,
@@ -880,6 +890,27 @@
 			name = ShareSearch;
 			sourceTree = "<group>";
 		};
+		9A3D53921D539E7F00855695 /* MyModel */ = {
+			isa = PBXGroup;
+			children = (
+				9A3D53991D539F0500855695 /* MyAddressInfoModel.h */,
+				9A3D539A1D539F0500855695 /* MyAddressInfoModel.m */,
+			);
+			name = MyModel;
+			path = Controllers/MyModel;
+			sourceTree = "<group>";
+		};
+		9A3D53931D539E7F00855695 /* MyView */ = {
+			isa = PBXGroup;
+			children = (
+				9A3D53941D539ED800855695 /* MyAddressInfoCell.h */,
+				9A3D53951D539ED800855695 /* MyAddressInfoCell.m */,
+				9A3D53961D539ED800855695 /* MyAddressInfoCell.xib */,
+			);
+			name = MyView;
+			path = Controllers/MyView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -962,6 +993,7 @@
 				3A05D46E17D97931002CF304 /* startPoint.png in Resources */,
 				3A05D46F17D97931002CF304 /* startPoint@2x.png in Resources */,
 				3A115560183362F300249A3F /* animatedCar_1.png in Resources */,
+				9A3D53981D539ED800855695 /* MyAddressInfoCell.xib in Resources */,
 				81DB7A871AA4339D00DDFF1E /* compass.png in Resources */,
 				81DB7A961AA595EA00DDFF1E /* car@2x.png in Resources */,
 				81DB7A881AA4339D00DDFF1E /* compass@2x.png in Resources */,
@@ -1048,6 +1080,7 @@
 				3A05D4EC17D97A32002CF304 /* RoadDetailViewController.m in Sources */,
 				810F09C0190F54010059439A /* TileOverlayViewController.m in Sources */,
 				3A05D4ED17D97A32002CF304 /* RoadInterDetailViewController.m in Sources */,
+				9A3D539B1D539F0500855695 /* MyAddressInfoModel.m in Sources */,
 				81775ED61BA00C6A00397351 /* NearbyVewController.m in Sources */,
 				3A05D4EE17D97A32002CF304 /* RouteDetailViewController.m in Sources */,
 				3A05D4EF17D97A32002CF304 /* SegmentDetailViewController.m in Sources */,
@@ -1057,6 +1090,7 @@
 				3A05D4F217D97A32002CF304 /* TransitDetailViewController.m in Sources */,
 				2685A6981D5049DA002B318F /* MyWeChatViewController.m in Sources */,
 				3A05D4F317D97A32002CF304 /* WalkingDetailViewController.m in Sources */,
+				9A3D53971D539ED800855695 /* MyAddressInfoCell.m in Sources */,
 				9C07F67C18225B49003B19BB /* LineDashPolyline.m in Sources */,
 				1C8B5E4E1BC674190076C6DE /* CloudPOIPolygonSearchViewController.m in Sources */,
 				3A05D50C17D97A46002CF304 /* BusStopAnnotation.m in Sources */,
