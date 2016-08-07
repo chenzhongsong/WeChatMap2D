@@ -13,6 +13,7 @@
 		1C8B5E4E1BC674190076C6DE /* CloudPOIPolygonSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B5E481BC674190076C6DE /* CloudPOIPolygonSearchViewController.m */; };
 		1C8B5E521BC674DE0076C6DE /* AMapCloudPOIDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B5E511BC674DE0076C6DE /* AMapCloudPOIDetailViewController.m */; };
 		1C8B5E551BC675F90076C6DE /* CloudPOIAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C8B5E541BC675F90076C6DE /* CloudPOIAnnotation.m */; };
+		265B33AF1D5483A5001C58D7 /* MyCurrentAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 265B33AE1D5483A5001C58D7 /* MyCurrentAddressCell.m */; };
 		2685A6981D5049DA002B318F /* MyWeChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2685A6971D5049DA002B318F /* MyWeChatViewController.m */; };
 		3A05D43817D97856002CF304 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A05D43717D97856002CF304 /* UIKit.framework */; };
 		3A05D43A17D97856002CF304 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A05D43917D97856002CF304 /* Foundation.framework */; };
@@ -174,6 +175,8 @@
 		1C8B5E511BC674DE0076C6DE /* AMapCloudPOIDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMapCloudPOIDetailViewController.m; sourceTree = "<group>"; };
 		1C8B5E531BC675F90076C6DE /* CloudPOIAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudPOIAnnotation.h; sourceTree = "<group>"; };
 		1C8B5E541BC675F90076C6DE /* CloudPOIAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudPOIAnnotation.m; sourceTree = "<group>"; };
+		265B33AD1D5483A5001C58D7 /* MyCurrentAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCurrentAddressCell.h; sourceTree = "<group>"; };
+		265B33AE1D5483A5001C58D7 /* MyCurrentAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCurrentAddressCell.m; sourceTree = "<group>"; };
 		2685A6961D5049DA002B318F /* MyWeChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWeChatViewController.h; sourceTree = "<group>"; };
 		2685A6971D5049DA002B318F /* MyWeChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWeChatViewController.m; sourceTree = "<group>"; };
 		3A05D43417D97856002CF304 /* officialDemo2D.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = officialDemo2D.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -906,6 +909,8 @@
 				9A3D53941D539ED800855695 /* MyAddressInfoCell.h */,
 				9A3D53951D539ED800855695 /* MyAddressInfoCell.m */,
 				9A3D53961D539ED800855695 /* MyAddressInfoCell.xib */,
+				265B33AD1D5483A5001C58D7 /* MyCurrentAddressCell.h */,
+				265B33AE1D5483A5001C58D7 /* MyCurrentAddressCell.m */,
 			);
 			name = MyView;
 			path = Controllers/MyView;
@@ -1081,6 +1086,7 @@
 				810F09C0190F54010059439A /* TileOverlayViewController.m in Sources */,
 				3A05D4ED17D97A32002CF304 /* RoadInterDetailViewController.m in Sources */,
 				9A3D539B1D539F0500855695 /* MyAddressInfoModel.m in Sources */,
+				265B33AF1D5483A5001C58D7 /* MyCurrentAddressCell.m in Sources */,
 				81775ED61BA00C6A00397351 /* NearbyVewController.m in Sources */,
 				3A05D4EE17D97A32002CF304 /* RouteDetailViewController.m in Sources */,
 				3A05D4EF17D97A32002CF304 /* SegmentDetailViewController.m in Sources */,

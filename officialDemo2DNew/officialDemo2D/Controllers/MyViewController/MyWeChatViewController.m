@@ -8,6 +8,7 @@
 
 #import "MyWeChatViewController.h"
 #import "GeocodeAnnotation.h"
+#import "MyAddressInfoCell.h"
 
 @interface MyWeChatViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, assign) CGFloat mapView_height;
@@ -200,16 +201,6 @@ updatingLocation:(BOOL)updatingLocation
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"response.geocodes.count ！= 1" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         [alert show];
     }
-    
-    //通过AMapGeocodeSearchResponse对象处理搜索结果
-//    NSString *strCount = [NSString stringWithFormat:@"count: %ld", (long)response.count];
-//    
-//    NSString *strGeocodes = @"";
-//    for (AMapTip *p in response.geocodes) {
-//        strGeocodes = [NSString stringWithFormat:@"%@\ngeocode: %@", strGeocodes, p.description];
-//    }
-//    NSString *result = [NSString stringWithFormat:@"%@ \n %@", strCount, strGeocodes];
-//    NSLog(@"Geocode: %@", result);
 }
 
 
@@ -220,15 +211,20 @@ updatingLocation:(BOOL)updatingLocation
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellId = @"mapViewCellId";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    MyAddressInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell= [[[NSBundle mainBundle]loadNibNamed:@"MyAddressInfoCell" owner:nil options:nil] firstObject];
     }
     if (indexPath.row == 0) {
         cell.textLabel.text = self.regeocode.formattedAddress;
+        cell.textLabel.font = [UIFont systemFontOfSize:16];
+        cell.textLabel.numberOfLines = 0;
+        cell.titleLab.text = @"";
+        cell.subTitleLab.text = @"";
     } else {
-        AMapPOI *POI = self.regeocode.pois[indexPath.row];
-        cell.textLabel.text = POI.name;
+        AMapPOI *POI = self.regeocode.pois[indexPath.row-1];
+        cell.titleLab.text = POI.name;
+        cell.subTitleLab.text = POI.address;
     }
     
     
@@ -266,6 +262,10 @@ updatingLocation:(BOOL)updatingLocation
     
     [self createGeocodeSearch];
     NSLog(@"geocode:%f,%f",POI.location.latitude,POI.location.longitude);
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 54;
 }
 
 - (void)viewDidLoad {

@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface MyAddressInfoModel : NSObject
-
+@property (nonatomic, assign) BOOL isSelectCurrentCell;
 @end
