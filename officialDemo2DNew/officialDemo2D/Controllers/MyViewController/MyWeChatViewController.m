@@ -19,8 +19,6 @@
 @property (nonatomic, copy) NSString *address;
 @property (nonatomic, strong)UITableViewCell *frontClickCell;//前面点击的cell
 @property (nonatomic, copy)   NSString     *uid;
-
-
 @end
 
 @implementation MyWeChatViewController
@@ -51,6 +49,7 @@
     self.centerPointImgView.backgroundColor = [UIColor redColor];
     [self.mapView addSubview:self.centerPointImgView];
     
+    self.centerPointImgView.image = [UIImage imageNamed:@"locate"];
 }
 
 - (void)createReGeocodeSearch {
@@ -213,7 +212,7 @@ updatingLocation:(BOOL)updatingLocation
     static NSString *cellId = @"mapViewCellId";
     MyAddressInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     if (cell == nil) {
-        cell= [[[NSBundle mainBundle]loadNibNamed:@"MyAddressInfoCell" owner:nil options:nil] firstObject];
+        cell= [[[NSBundle mainBundle] loadNibNamed:@"MyAddressInfoCell" owner:nil options:nil] firstObject];
     }
     if (indexPath.row == 0) {
         cell.textLabel.text = self.regeocode.formattedAddress;
@@ -262,6 +261,9 @@ updatingLocation:(BOOL)updatingLocation
     
     [self createGeocodeSearch];
     NSLog(@"geocode:%f,%f",POI.location.latitude,POI.location.longitude);
+     
+    
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -293,7 +295,7 @@ updatingLocation:(BOOL)updatingLocation
     self.mapView.showsUserLocation = YES;
     self.mapView.userTrackingMode = MAUserTrackingModeFollow;
     
-    [self.mapView setZoomLevel:16.1 animated:YES];
+    [self.mapView setZoomLevel:16.10 animated:YES];
     
     
     CLLocationCoordinate2D location = [self.mapView convertPoint:self.centerPointImgView.center toCoordinateFromView:self.mapView];

@@ -9,7 +9,6 @@
 #import "BaseMapViewController.h"
 
 @interface BaseMapViewController()
-
 @property (nonatomic, assign) BOOL isFirstAppear;
 @property (nonatomic, weak) UIButton *userLocationBtn;
 @end
@@ -18,12 +17,14 @@
 @synthesize mapView = _mapView;
 @synthesize search  = _search;
 
-#pragma mark - Utility
+
 -(void)dealloc {
 //    [super dealloc];
     
 //    NSLog(@"dealloc_self.userLocationBtn:%@",self.userLocationBtn);
 }
+
+#pragma mark - Utility
 - (void)clearMapView
 {
     self.mapView.showsUserLocation = NO;
